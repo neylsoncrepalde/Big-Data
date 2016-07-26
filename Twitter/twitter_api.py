@@ -12,10 +12,10 @@ api = TwitterAPI(consumer_key='XXXXXXXXXXXXXXXXXXXXXXXXX',
                          access_token_key='XXXXXXXXXXXXXXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXX',
                          access_token_secret='XXXXXXXXXXXXXXXXXXXXXXXXX')
 
-filters = {"track": ["big data"]}
+filters = {"track": ["keyword"]} #replace with the keyword that you want
 r = api.request('statuses/filter', filters).get_iterator()
-saida = open("tweets_teste2.txt","w")
+out = open("collected_tweets.txt","w")
 
 for item in r:
     itemString = json.dumps(item)
-    saida.write(itemString + '\n')
+    out.write(itemString + '\n')
