@@ -7,10 +7,10 @@ version: 3.5.2
 from TwitterAPI import TwitterAPI
 import json
 
-api = TwitterAPI(consumer_key='zZqautC9KVJXXcNAWVtOp0ipZ',
-                         consumer_secret='QYccdNmLoLpSje7wFgY2GXo1qXofj4qIxK6fJPTrw1xHKqd5ou',
-                         access_token_key='3036885015-RwYnJZAvbTnL6OBbkzgN3QGDPlhN5WtDQBp8ZdL',
-                         access_token_secret='8duOLfdbJqbHem69FHzJD63hKEBCLDv0mesPLiB4v4dJ3')
+api = TwitterAPI(consumer_key='XXXXXXXXXXXXXXXXXXXXXXXXX',
+                         consumer_secret='XXXXXXXXXXXXXXXXXXXXXXXXX',
+                         access_token_key='XXXXXXXXXXXXXXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXX',
+                         access_token_secret='XXXXXXXXXXXXXXXXXXXXXXXXX')
 
 filters = {"track": ["big data"]}
 r = api.request('statuses/filter', filters).get_iterator()
