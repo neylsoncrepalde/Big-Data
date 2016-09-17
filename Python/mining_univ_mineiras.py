@@ -29,7 +29,7 @@ paginas_completas = []
 for pagina in paginas:
     item = ('http://www.altillo.com/pt/universidades/brasil/estado/'+ pagina)
     paginas_completas.append(item)
-print(paginas_completas)
+#print(paginas_completas)
 
 def tipoTag(bsObj):
     return type(bsObj.blockquote)
@@ -42,6 +42,9 @@ def pega_nome(link):
 os.chdir('/home/neylson/Documentos/Neylson Crepalde/Doutorado/GIARS/Antonio')
 saida = open('universidades.csv', 'w')
 export = csv.writer(saida, quoting=csv.QUOTE_NONNUMERIC)
+export.writerow(['instituicao','info'])
+
+print('Começando a coleta')
 
 #Entrando em todas as paginas
 for pagina in paginas_completas:
@@ -53,10 +56,19 @@ for pagina in paginas_completas:
     cursos = []
     for child in bsObj.find('blockquote').findAll('p'):
         if type(child) == tipoTag(bsObj):
-            print(pega_nome(pagina))
-            print(child.get_text())
-            export.writerow([pega_nome(pagina), child.get_text()])
+            texto = child.get_text()
+            texto = texto.replace("\n","")
+            texto = texto.replace("\r"," ")
+            #print(pega_nome(pagina))
+            #print(texto)
+            export.writerow([pega_nome(pagina), texto])
         else:
-            print(pega_nome(pagina))
-            print(child)
-            export.writerow([pega_nome(pagina), child])
+            texto = child.replace("\n","")
+            texto = texto.replace("\r"," ")            
+            #print(pega_nome(pagina))
+            #print(texto)
+            export.writerow([pega_nome(pagina), texto])
+
+saida.close()
+print('Acabou')
+
