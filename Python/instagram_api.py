@@ -5,14 +5,26 @@ import simplejson as json
 
 path = 'https://api.instagram.com/v1/users/self/media/recent/?access_token='
 access_token = "1704527633.ab86d7c.cffcf78286a943e687753060750be7f0"
-url = path+access_token+'&count=10'
+url = path+access_token+'&count=50'
 
 r = requests.get(url)
 r.url
 dados = r.json()
 
-type ( dados['data'][0]['location'] )
+len(dados['data'])
 
+for i in range(20):
+    print(dados['data'][i]['location'])
+
+
+'''
+path = 'https://api.instagram.com/v1/users/1707935386/media/recent/?access_token='
+url = path+access_token+'&count=10'
+r = requests.get(url)
+
+dados = r.json()
+dados
+'''
 
 '''
 WORK IN PROGRESS
