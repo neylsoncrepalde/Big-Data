@@ -4,6 +4,7 @@
 #==========================================================================
 
 library(XML)
+library(dplyr)
 
 url.scielo <- "http://www.scielo.br/scielo.php?script=sci_issues&pid=0104-026X&lng=pt&nrm=iso"
 
