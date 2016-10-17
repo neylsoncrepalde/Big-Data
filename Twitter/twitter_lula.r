@@ -67,4 +67,4 @@ is.bipartite(g)
 g
 plot(g, vertex.size=4, vertex.label=V(g)$name, vertex.color=as.numeric(V(g)$type))
 g2 <- bipartite_projection(g, which = "FALSE")
-plot(g2, edge.width=log(E(g2)$weight))
+plot(g2, edge.width=log(E(g2)$weight), vertex.shape="none")
