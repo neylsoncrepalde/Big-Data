@@ -138,3 +138,37 @@ for (j in links.artigos.scielo[1:100]){  #loop para cada iteracao j (link de art
 
 View(dados.autores.completo)
 View(titulos.keywords)
+
+
+########################################################################################
+# Montando a rede
+########################################################################################
+
+edge.list <- mutate(dados.autores.completo,
+                    autores = paste(autores.nomes, autores.sobrenomes)) %>% 
+  select(autores, titulos)
+
+head(edge.list)
+
+library(igraph)
+
+g <- graph_from_edgelist(as.matrix(edge.list), directed = F)
+map <- bipartite_mapping(g)
+V(g)$type <- map$type
+is.bipartite((g))
+
+V(g)$shape <- c("circle","square")[V(g)$type+1]
+V(g)$color <- c("orange","steel blue")[V(g)$type+1]
+plot(g, vertex.size=5, vertex.label=NA, edge.color="black")
+
+proj <- bipartite_projection(g)
+
+par(mfrow=c(1,2))
+plot(proj$proj1, vertex.size=3, vertex.label=NA, layout=layout_in_circle,
+     main='Rede de coautoria na revista\n"Estudos Feministas"', xlab='Densidade = 0.0013')
+plot(proj$proj1, vertex.size=3, vertex.label=NA, layout=layout_with_fr,
+     main='Rede de coautoria na revista\n"Estudos Feministas"', xlab='Densidade = 0.0013')
+par(mfrow=c(1,1))
+graph.density(proj$proj1)
+hist(degree(proj$proj1), col='green', main='Histograma do grau\nEstudos Feministas', xlab='Grau', ylab='')
+
