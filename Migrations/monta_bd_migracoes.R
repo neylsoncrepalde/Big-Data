@@ -1,6 +1,7 @@
-# WTO -- Dados desagregados por pais
-# Script GIARS
-# Neylson e Italo
+# UN - Migration Flows
+# Doutorado em Sociologia
+# SEA Populações
+# Neylson Crepalde
 
 library(gdata)
 library(dplyr)
