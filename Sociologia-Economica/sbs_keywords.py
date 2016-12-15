@@ -5,6 +5,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import os
 import csv
+import time
+
+ini = time.time()
 
 os.chdir('/home/neylson/Documentos/Neylson Crepalde/Doutorado/GIARS/SBS_sociologia_economica')
 
@@ -16,7 +19,7 @@ export.writerow(['link','keyword'])
 artigos = pd.read_csv('artigos_sociologia_scielo.csv', sep=';', header=None)
 artigos = artigos[0].tolist()
 
-for url in artigos[:20]:
+for url in artigos:
     
     pagina = urlopen(url)
     pagina = BeautifulSoup(pagina)
@@ -36,3 +39,6 @@ for url in artigos[:20]:
 
 #por último
 saida.close()
+
+fim = time.time()
+print("Tempo de execução: ", fim-ini)
