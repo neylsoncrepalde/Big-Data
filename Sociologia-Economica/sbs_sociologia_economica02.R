@@ -11,4 +11,4 @@ keys = keys.df$keyword %>% unique
 
 selecao = grep("(e|E)con(ô|o)m", keys.df$keyword)
 
-View(keys.df[selecao,])
+soc.econ = keys.df[selecao,]
