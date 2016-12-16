@@ -28,6 +28,8 @@ export4.writerow(['title','ref'])
 artigos = pd.read_csv('artigos_soc_econ.csv', sep=';')
 urls = artigos['link']
 
+url_problema = []
+
 contador = 0
 for url in urls:
     print(contador)
@@ -66,8 +68,13 @@ for url in urls:
     
     #Referências
     ref_sobrenomes = []
-    for i in xml.back.findAll("surname"):
-        ref_sobrenomes.append(i.get_text())
+    try:
+        for i in xml.back.findAll("surname"):
+            ref_sobrenomes.append(i.get_text())
+    except AttributeError as e:
+        url_problema.append(url)
+        contador = contador+1
+        continue
     
     ref_nomes = []
     for i in xml.back.findAll("given-names"):
@@ -103,3 +110,4 @@ saida3.close()
 saida4.close()
 
 print('Acabou!')
+print(url_problema)
