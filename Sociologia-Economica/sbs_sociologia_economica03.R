@@ -21,9 +21,33 @@ names(keys)
 names(autores)
 names(refs)
 
+###############################################
+# Medidas descritivas
+# journal
+tabela.journal = table(title$journal) %>% as.data.frame(., stringsAsFactors=F)
+tabela.journal = arrange(tabela.journal, desc(Freq))
+tabela.journal[1:11,]
+ggplot(tabela.journal[1:11,], aes(reorder(Var1, Freq), Freq) )+geom_bar(stat = "identity")+
+  coord_flip()+labs(y="",x="")+theme_bw()  #tamanho 500 X 350
+
+# ANO
+summary(title$year)
+tabela.ano = table(title$year) %>% as.data.frame(., stringsAsFactors=F)
+tabela.ano$Var1 %<>% as.Date(., "%Y")
+ggplot(tabela.ano, aes(x=Var1, y=Freq))+geom_line()+labs(x='Anos',y='Artigos')+theme_bw() #500 X 350
+
+#autores
+tabela.autor = table(autores$author) %>% as.data.frame(., stringsAsFactors=F)
+tabela.autor = arrange(tabela.autor, desc(Freq))
+tabela.autor[1:21,]
+ggplot(tabela.autor[1:21,], aes(x=reorder(Var1, Freq), y=Freq))+geom_bar(stat = "identity")+
+  coord_flip()+labs(y="",x="")+theme_bw()  #tamanho 500 X 400
+
+
+# Rede de coautorias
 data1 = full_join(title, autores)
 View(data1)
-# Rede de coautorias
+
 m1 = data1[,c(1,4)] %>% as.matrix
 rede2mode.autores = graph_from_edgelist(m1, directed = F)
 bip = bipartite_mapping(rede2mode.autores)
@@ -46,21 +70,29 @@ tabela.key = table(keys.vec) %>% as.data.frame(., stringsAsFactors=F)
 tabela.key = arrange(tabela.key, desc(Freq))
 
 ggplot(tabela.key[1:10,], aes(reorder(keys.vec, Freq), Freq) )+geom_bar(stat = "identity")+
-  coord_flip()+labs(y="",x="")+theme_bw()
+  coord_flip()+labs(y="",x="")+theme_bw() #tamanho 500 X 350
 
 ## Juntando os bancos para montar a rede
 data2 = full_join(data1, keys)
 View(data2)
 
 # Rede de palavras-chave
+data2$keyword = data2$keyword %>% tolower
+data2$keyword = data2$keyword %>% gsub('(à|á|ã)','a',.) %>% gsub('(é|ê|è)','e',.) %>% gsub('í','i',.) %>%
+  gsub('(ó|ö|ò|ô|õ)','o',.) %>% gsub('(ú|ù|ü)','u',.)
+
 m2 = data2[,c(1,5)] %>% as.matrix
 rede2mode.keys = graph_from_edgelist(m2, directed = F)
 bip = bipartite_mapping(rede2mode.keys)
 V(rede2mode.keys)$type = bip$type
 palavras.chave = bipartite_projection(rede2mode.keys, which='true')
 V(palavras.chave)$shape = "none"
-plot(palavras.chave, vertex.label.cex=degree(palavras.chave)/7,
-     edge.width=(E(palavras.chave)$weight)/10)
+plot(palavras.chave, vertex.label.cex=degree(palavras.chave)/60,
+     edge.width=(E(palavras.chave)$weight)/10, 
+     vertex.label.color=adjustcolor('blue',.7),
+     edge.color=adjustcolor('grey',.5),
+     layout=layout_with_mds)
+title(xlab="Layout = Escalonamento Multidimensional")
 
 ################################
 data3 = full_join(data1, refs)
