@@ -12,4 +12,4 @@ keys = keys.df$keyword %>% unique
 selecao = grep("(e|E)con(ô|o)m", keys.df$keyword)
 
 soc.econ = keys.df[selecao,]
-write.table(soc.econ, 'artigos_soc_econ.csv', sep=';')
+write.table(soc.econ, 'artigos_soc_econ.csv', sep=';', row.names=F)
