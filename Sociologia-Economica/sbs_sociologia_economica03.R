@@ -53,8 +53,18 @@ rede2mode.autores = graph_from_edgelist(m1, directed = F)
 bip = bipartite_mapping(rede2mode.autores)
 V(rede2mode.autores)$type = bip$type
 coautorias = bipartite_projection(rede2mode.autores, which = 'true')
-plot(coautorias, vertex.size=6, vertex.label=NA)
 
+graph.density(coautorias)
+plot(coautorias, vertex.size=degree(coautorias), vertex.label=NA, layout=layout_in_circle)
+title(xlab="Densidade = 0.002\nTamanho = Centralidade de Grau")
+
+nomes = V(coautorias)$name %>% as.data.frame(., stringsAsFactors=F)
+names(nomes) = "Var1"
+publicou = left_join(nomes, tabela.autor)
+head(nomes); head(publicou)
+V(coautorias)$publicacoes = publicou$Freq
+plot(coautorias, vertex.size=V(coautorias)$publicacoes, vertex.label=NA)
+title(xlab="Densidade = 0.002\nTamanho = Publicações")
 
 #################################
 #Freq das palavras chave
