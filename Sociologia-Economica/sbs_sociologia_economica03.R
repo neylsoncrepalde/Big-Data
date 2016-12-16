@@ -135,18 +135,24 @@ data3 = mutate(data3,
 #singer.outros = grep("S(i|I)(n|N)(g|G)(e|E)(r|R) (A|M|H)",data3$refsemponto[sel.singer])
 #data3$refsemponto[sel.singer][-singer.outros][-1] = "SINGER Paul"
 
-data3 = mutate(data3,
-               refsemponto = tolower(refsemponto))
+data3$refsemponto %<>% tolower
 
 tabela.ref = table(data3$refsemponto) %>% as.data.frame(., stringsAsFactors=F)
 tabela.ref = arrange(tabela.ref, desc(Freq))
-tabela.ref[1:50,]
+tabela.ref[1:20,]
+
+
 
 # Rede de citações
-m3 = data3[,c(4,6)] %>% as.matrix
+m3 = data3[,c(4,5)] %>% as.matrix
+
 citacoes = graph_from_edgelist(m3, directed=T)
 indeg = degree(citacoes, mode = "in")
-plot(citacoes, vertex.size=indeg/4,
-     vertex.label.cex=(indeg+1)/50, 
-     edge.arrow.size=.3, 
+ggplot(NULL, aes(indeg))+geom_histogram(col="white")+theme_bw()+labs(x='',y='')
+
+plot(citacoes, vertex.size=indeg/15,
+     vertex.label.cex=(indeg+1)/120, 
+     edge.arrow.size=.1,
+     edge.color=adjustcolor('grey',.5),
+     vertex.color=adjustcolor('red',.4),
      vertex.label.color=adjustcolor('blue', .8))
