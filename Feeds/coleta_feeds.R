@@ -15,7 +15,7 @@ search.gnews <- function(chave=""){
   return(url.busca)
 }
 
-search.gnews(c("greve","geral","no","brasil"))
+search.gnews(c("greve geral no brasil"))
 news <- feed.extract(search.gnews("greve geral"), encoding = "UTF-8")
 
 class(news)
