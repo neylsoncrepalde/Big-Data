@@ -35,9 +35,6 @@ urls_corrigido = []
 for i in urls:
     urls_corrigido.append(i[1:-2])
 
-for i in urls_corrigido:
-    print(i)
-
 url_problema = []
 
 #Começa a raspagem
