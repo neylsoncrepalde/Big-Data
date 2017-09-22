@@ -59,8 +59,13 @@ for url in urls_corrigido:
     year = xml.find("pub-date", {"pub-type":"pub"}).find("year").get_text()
     
     autores_sobrenomes = []
-    for i in xml.front.find("contrib-group").findAll("surname"):
-        autores_sobrenomes.append(i.get_text())
+    try:
+	    for i in xml.front.find("contrib-group").findAll("surname"):
+	        autores_sobrenomes.append(i.get_text())
+    except AttributeError as e:
+        url_problema.append(url)
+        contador = contador+1
+        continue
     
     autores_nomes = []
     for i in xml.front.find("contrib-group").findAll("given-names"):
