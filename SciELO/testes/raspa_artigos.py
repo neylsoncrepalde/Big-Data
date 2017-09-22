@@ -51,10 +51,15 @@ for url in urls_corrigido:
         
     journal = xml.find("journal-title").get_text()
     try:
-        title = xml.find("article-title", {"xml:lang":"pt"}).get_text()
+	    try:
+	        title = xml.find("article-title", {"xml:lang":"pt"}).get_text()
+	    except AttributeError as e:
+	        title = xml.find("article-title", {"xml:lang":"en"}).get_text()
     except AttributeError as e:
-        title = xml.find("article-title", {"xml:lang":"en"}).get_text()
-        
+        url_problema.append(url)
+        contador = contador+1
+        continue
+
     year = xml.find("pub-date", {"pub-type":"pub"}).find("year").get_text()
     
     autores_sobrenomes = []
