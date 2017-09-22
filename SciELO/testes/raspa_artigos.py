@@ -5,7 +5,6 @@ import os
 import csv
 import sys
 
-print(os.listdir())
 print("Raspando artigos do SCIELO\n")
 
 urlArtigos = sys.argv[1]
