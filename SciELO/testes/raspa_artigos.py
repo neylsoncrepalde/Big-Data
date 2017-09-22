@@ -42,7 +42,7 @@ url_problema = []
 
 #Começa a raspagem
 contador = 0
-for url in urls:
+for url in urls_corrigido:
     print(contador)
     pagina = urlopen(url)
     pagina = BeautifulSoup(pagina, 'lxml')
