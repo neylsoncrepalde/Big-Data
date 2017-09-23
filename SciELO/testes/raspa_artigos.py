@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 import os
 import csv
 import sys
+import time
+
+ini = time.time()
 
 print("Raspando artigos do SCIELO\n")
 
@@ -51,10 +54,10 @@ for url in urls_corrigido:
         
     journal = xml.find("journal-title").get_text()
     try:
-	    try:
-	        title = xml.find("article-title", {"xml:lang":"pt"}).get_text()
-	    except AttributeError as e:
-	        title = xml.find("article-title", {"xml:lang":"en"}).get_text()
+        try:
+            title = xml.find("article-title", {"xml:lang":"pt"}).get_text()
+        except AttributeError as e:
+            title = xml.find("article-title", {"xml:lang":"en"}).get_text()
     except AttributeError as e:
         url_problema.append(url)
         contador = contador+1
@@ -64,8 +67,8 @@ for url in urls_corrigido:
     
     autores_sobrenomes = []
     try:
-	    for i in xml.front.find("contrib-group").findAll("surname"):
-	        autores_sobrenomes.append(i.get_text())
+        for i in xml.front.find("contrib-group").findAll("surname"):
+            autores_sobrenomes.append(i.get_text())
     except AttributeError as e:
         url_problema.append(url)
         contador = contador+1
@@ -76,8 +79,13 @@ for url in urls_corrigido:
         autores_nomes.append(i.get_text())
     
     autores = []
-    for i in range(len(autores_sobrenomes)):
-        autores.append( autores_sobrenomes[i] + ', ' + autores_nomes[i] )
+    try:
+        for i in range(len(autores_sobrenomes)):
+            autores.append( autores_sobrenomes[i] + ', ' + autores_nomes[i] )
+    except IndexError as e:
+        url_problema.append(url)
+        contador = contador+1
+        continue
     
     keys = []
     for i in xml.findAll("kwd", {"lng":"pt"}):
@@ -133,3 +141,5 @@ for i in url_problema:
 print('\n')
 print('Acabou!')
 
+fim = time.time()
+print("O código demorou {} segundos para rodar.".format(fim-ini))
