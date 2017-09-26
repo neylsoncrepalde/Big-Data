@@ -22,7 +22,7 @@ list.files()
 
 #lê os dados
 coments = fread("https://raw.githubusercontent.com/neylsoncrepalde/Big-Data/master/Facebook/Bolsonaro-teste/page_211857482296579_2017_09_25_23_02_02_comments.tab",
-                encoding="UTF-8")
+                encoding="Latin-1")
 
 #Exibe os primeiros casos dos comentários
 head(coments$comment_message)
