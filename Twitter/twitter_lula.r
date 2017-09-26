@@ -49,7 +49,6 @@ conteudo = texto %>% tolower %>% removePunctuation %>%
 # Monta wordclouds
 wordcloud(enc2native(conteudo), min.freq = 2, max.words = 100, random.order = F)
 
-library(RColorBrewer)
 pal2 <- brewer.pal(8,"Dark2")
 wordcloud(enc2native(conteudo), min.freq=2,max.words=100, random.order=F, colors=pal2)
 title(xlab = "Twitter, 26/09/2017, 15:00")
@@ -57,16 +56,17 @@ title(xlab = "Twitter, 26/09/2017, 15:00")
 # Análise de clusterização
 corpus <- Corpus(VectorSource(enc2native(conteudo)))
 tdm <- TermDocumentMatrix(corpus)
-tdm <- removeSparseTerms(tdm, sparse = 0.97)
+tdm <- removeSparseTerms(tdm, sparse = 0.98)
 df <- as.data.frame(as.matrix(tdm))
 dim(df)
 df.scale <- scale(df)
 d <- dist(df.scale, method = "euclidean")
 fit <- hclust(d)
 plot(fit)
+
+#Usando outro algoritmo
 fit.ward2 <- hclust(d, method = "ward.D2")
 plot(fit.ward2)
-
 rect.hclust(fit.ward2, h=15)
 
 # Se quisermos trabalhar com análise de redes sociais
@@ -75,6 +75,6 @@ matriz <- as.matrix(df)
 g <- graph_from_incidence_matrix(matriz)
 is.bipartite(g)
 g
-plot(g, vertex.size=4, vertex.label=V(g)$name, vertex.color=as.numeric(V(g)$type))
+#plot(g, vertex.size=4, vertex.label=V(g)$name, vertex.color=as.numeric(V(g)$type))
 g2 <- bipartite_projection(g, which = "FALSE")
 plot(g2, edge.width=log(E(g2)$weight), vertex.shape="none")
