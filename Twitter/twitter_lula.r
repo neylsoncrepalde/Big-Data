@@ -21,7 +21,7 @@ setup_twitter_oauth(consumer_key,
                     access_secret)
 
 # Faz a busca e coloca num objeto bd
-tweets <- searchTwitter("temer", n=2000)
+tweets <- searchTwitter("#bolsonaro", n=200)
 bd <- ldply(tweets, function(t) t$toDataFrame() )
 View(bd)
 
@@ -35,21 +35,25 @@ text <- gsub("http", "", text)
 grep("http", text)
 
 # Prepara o Corpus para análise
-corpus <- Corpus(VectorSource(enc2native(text)))
-corpus <- tm_map(corpus, content_transformer(tolower))
-corpus <- tm_map(corpus, removePunctuation)
-corpus <- tm_map(corpus, function(x)removeWords(x,stopwords("pt")))
+head(text)
+texto = text
+texto = iconv(text, from="UTF-8", to="latin1")
+head(texto)
+conteudo = texto %>% tolower %>% removePunctuation %>% 
+  removeWords(., stopwords('pt'))
 
 # Monta wordclouds
-wordcloud(enc2native(corpus), min.freq = 2, max.words = 100, random.order = F)
+wordcloud(enc2native(conteudo), min.freq = 2, max.words = 100, random.order = F)
+
 library(RColorBrewer)
 pal2 <- brewer.pal(8,"Dark2")
-wordcloud(enc2native(corpus), min.freq=2,max.words=100, random.order=F, colors=pal2)
-title(xlab = "Twitter, 17/03/2016, 00:19")
+wordcloud(enc2native(conteudo), min.freq=2,max.words=100, random.order=F, colors=pal2)
+title(xlab = "Twitter, 26/09/2017, 15:00")
 
 # Análise de clusterização
+corpus <- Corpus(VectorSource(enc2native(conteudo)))
 tdm <- TermDocumentMatrix(corpus)
-tdm <- removeSparseTerms(tdm, sparse = 0.95)
+tdm <- removeSparseTerms(tdm, sparse = 0.97)
 df <- as.data.frame(as.matrix(tdm))
 dim(df)
 df.scale <- scale(df)
@@ -59,7 +63,7 @@ plot(fit)
 fit.ward2 <- hclust(d, method = "ward.D2")
 plot(fit.ward2)
 
-rect.hclust(fit.ward2, h=50)
+rect.hclust(fit.ward2, h=15)
 
 # Se quisermos trabalhar com análise de redes sociais
 library(igraph)
