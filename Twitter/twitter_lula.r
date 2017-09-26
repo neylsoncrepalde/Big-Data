@@ -3,10 +3,14 @@
 # Neylson Crepalde
 ###########################
 
+# Se precisar instalar os pacotes, use:
+#install.packages(c("twitteR","wordcloud","tm","plyr","magrittr","igraph"), dependencies=T)
+
 library(twitteR)
 library(wordcloud)
 library(tm)
 library(plyr)
+library(magrittr)
 
 # Coloca as chaves
 consumer_key <- "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
