@@ -31,7 +31,7 @@ print('Processando...')
 tweets = bdex.loc[['user_mentions']]
 erros = []
 
-for i in range(10):
+for i in range(len(jsonFile)):
     print(i)
     try:
         l = json.loads(jsonFile[i])
@@ -51,7 +51,7 @@ for i in range(10):
     bd['user_followers_count'] = bd['user']['followers_count']
     bd['user_id'] = bd['user']['id']
     bd['user_id_str'] = bd['user']['id_str']
-    pd.concat([tweets, bd.loc[['user_mentions']]], ignore_index=True)
+    tweets = pd.concat([tweets, bd.loc[['user_mentions']]], ignore_index=True)
 
 tweets.shape
 
