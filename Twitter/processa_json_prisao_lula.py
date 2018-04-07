@@ -33,7 +33,7 @@ print('Processando...')
 tweets = bdex.loc[['user_mentions']]
 erros = []
 
-for i in range(len(jsonFile)):
+for i in range(1,len(jsonFile)):
     print(i)
     try:
         l = json.loads(jsonFile[i])
