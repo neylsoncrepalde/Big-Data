@@ -10,8 +10,9 @@ import json
 from json import JSONDecodeError
 import pandas as pd
 import time
+import sys
 
-file = open('prisao_lula_tweets3.txt', 'r')
+file = open(str(sys.argv[1]), 'r')
 
 jsonFile = file.readlines()
 
@@ -23,6 +24,7 @@ bdex['user_followers_count'] = bdex['user']['followers_count']
 bdex['user_id'] = bdex['user']['id']
 bdex['user_id_str'] = bdex['user']['id_str']
 
+print('Processando arquivo: ' + str(sys.argv[1]))
 print('Quantidade de tweets a serem processados: ' + str(len(jsonFile)))
 print('\n')
 time.sleep(5)
@@ -58,3 +60,8 @@ tweets.shape
 print('Número de tweets com erro: ' + str(len(erros)))
 print('Dimensões do banco de tweets coletado: ' + str(tweets.shape))
 
+print('Exportando...')
+
+tweets.to_csv(str(sys.argv[1])[:-3] + 'csv')
+
+print('Pronto!')
