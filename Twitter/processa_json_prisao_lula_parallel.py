@@ -6,6 +6,7 @@ Created on Sat Apr  7 10:54:03 2018
 @author: neylson
 sintaxe:
 python processa_json.py nomedoarquivo inicio fim
+Já tem que saber o número total de tweets
 """
 
 import json
@@ -24,7 +25,7 @@ end = int(sys.argv[3])
 
 jsonFile = file.readlines()
 
-ex = json.loads(jsonFile[0])
+ex = json.loads(jsonFile[start])
 bdex = pd.DataFrame.from_dict(ex)
 bdex['user_name'] = bdex['user']['screen_name']
 bdex['user_favourites_count'] = bdex['user']['favourites_count']
@@ -33,7 +34,7 @@ bdex['user_id'] = bdex['user']['id']
 bdex['user_id_str'] = bdex['user']['id_str']
 
 print('Processando arquivo: ' + str(sys.argv[1]))
-print('Quantidade de tweets a serem processados: ' + str(end-start)
+print('Quantidade de tweets a serem processados: ' + str(end-start))
 print('\n')
 time.sleep(2)
     
@@ -69,7 +70,6 @@ res = p.map(processaJson, jsonFile)
 
 print('Juntando as linhas...')
 for i in range(1, len(res)):
-    print(i)
     tweets = tweets.append(res[i], ignore_index=True)
 
 
@@ -78,7 +78,7 @@ print('Dimensões do banco de tweets coletado: ' + str(tweets.shape))
 
 print('Exportando...')
 
-tweets.to_csv(str(sys.argv[1])[:-4] + '_' + str(start)_ +
+tweets.to_csv(str(sys.argv[1])[:-4] + '_' + str(start) +
               '_' + str(end) + '.csv')
 
 t2 = time.time()
