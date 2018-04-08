@@ -34,11 +34,8 @@ print('\n')
 time.sleep(2)
     
 tweets = bdex.loc[['user_mentions']]
-nomes = [nome for nome in tweets.columns]
 
 def processaJson(file):
-    global tweets
-    global nomes
     global bd
     try:
         l = json.loads(file)
@@ -56,19 +53,19 @@ def processaJson(file):
     bd['user_followers_count'] = bd['user']['followers_count']
     bd['user_id'] = bd['user']['id']
     bd['user_id_str'] = bd['user']['id_str']
-    bd1 = bd.loc[nomes]
     
-    tweets = pd.concat([tweets, bd1.loc[['user_mentions']]], 
-                       ignore_index = True)
-    
-    return tweets
+    return bd.loc[['user_mentions']]
 
 print('Definindo threads...')
 p = Pool(4)
 
 print('Processando...')
-res = p.map(processaJson, jsonFile[:100])
+res = p.map(processaJson, jsonFile)
 
+print('Juntando as linhas...')
+for i in range(1, len(res)):
+    print(i)
+    tweets = tweets.append(res[i], ignore_index=True)
 
 
 #print('Número de tweets com erro: ' + str(len(erros)))
