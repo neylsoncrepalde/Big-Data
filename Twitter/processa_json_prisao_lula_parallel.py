@@ -47,7 +47,7 @@ def processaJson(file):
         pass
     try:
         bd['user_name'] = bd['user']['screen_name']
-    except KeyError:
+    except (KeyError, NameError):
         pass
     bd['user_favourites_count'] = bd['user']['favourites_count']
     bd['user_followers_count'] = bd['user']['followers_count']
