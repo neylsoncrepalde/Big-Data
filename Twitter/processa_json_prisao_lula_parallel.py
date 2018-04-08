@@ -4,6 +4,8 @@
 Created on Sat Apr  7 10:54:03 2018
 
 @author: neylson
+sintaxe:
+python processa_json.py nomedoarquivo inicio fim
 """
 
 import json
@@ -17,6 +19,8 @@ t1 = time.time()
 
 file = open(str(sys.argv[1]), 'r')
 #file = open('prisao_lula_tweets3.txt', 'r')
+start = int(sys.argv[2])
+end = int(sys.argv[3])
 
 jsonFile = file.readlines()
 
@@ -29,7 +33,7 @@ bdex['user_id'] = bdex['user']['id']
 bdex['user_id_str'] = bdex['user']['id_str']
 
 print('Processando arquivo: ' + str(sys.argv[1]))
-print('Quantidade de tweets a serem processados: ' + str(len(jsonFile)))
+print('Quantidade de tweets a serem processados: ' + str(end-start)
 print('\n')
 time.sleep(2)
     
@@ -37,6 +41,7 @@ tweets = bdex.loc[['user_mentions']]
 
 def processaJson(file):
     global bd
+    global l
     try:
         l = json.loads(file)
     except JSONDecodeError:
@@ -73,7 +78,8 @@ print('Dimensões do banco de tweets coletado: ' + str(tweets.shape))
 
 print('Exportando...')
 
-tweets.to_csv(str(sys.argv[1])[:-3] + 'csv')
+tweets.to_csv(str(sys.argv[1])[:-4] + '_' + str(start)_ +
+              '_' + str(end) + '.csv')
 
 t2 = time.time()
 
