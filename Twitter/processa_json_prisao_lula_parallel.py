@@ -51,10 +51,10 @@ def processaJson(file):
         bd['user_followers_count'] = bd['user']['followers_count']
         bd['user_id'] = bd['user']['id']
         bd['user_id_str'] = bd['user']['id_str']
+
+        return bd.loc[['user_mentions']]
     except (KeyError, NameError):
         pass
-    
-    return bd.loc[['user_mentions']]
 
 print('Definindo threads...')
 p = Pool(4)
