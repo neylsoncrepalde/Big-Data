@@ -47,12 +47,12 @@ def processaJson(file):
         pass
     try:
         bd['user_name'] = bd['user']['screen_name']
+        bd['user_favourites_count'] = bd['user']['favourites_count']
+        bd['user_followers_count'] = bd['user']['followers_count']
+        bd['user_id'] = bd['user']['id']
+        bd['user_id_str'] = bd['user']['id_str']
     except (KeyError, NameError):
         pass
-    bd['user_favourites_count'] = bd['user']['favourites_count']
-    bd['user_followers_count'] = bd['user']['followers_count']
-    bd['user_id'] = bd['user']['id']
-    bd['user_id_str'] = bd['user']['id_str']
     
     return bd.loc[['user_mentions']]
 
