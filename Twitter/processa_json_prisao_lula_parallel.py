@@ -66,7 +66,7 @@ print('Definindo threads...')
 p = Pool(4)
 
 print('Processando...')
-res = p.map(processaJson, jsonFile)
+res = p.map(processaJson, jsonFile[start:end])
 
 print('Juntando as linhas...')
 for i in range(1, len(res)):
