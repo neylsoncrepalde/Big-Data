@@ -70,6 +70,7 @@ res = p.map(processaJson, jsonFile[start:end])
 
 print('Juntando as linhas...')
 for i in range(1, len(res)):
+    print(i)
     tweets = tweets.append(res[i], ignore_index=True)
 
 
